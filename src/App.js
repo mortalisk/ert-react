@@ -44,15 +44,16 @@ const RealDetails = memo(function(props) {
   </table>);
 });
 
-function App(props) {
-  const [state, setState] = useState(Immutable.fromJS({
+const Iter = memo(function(props) {
+  const [snapshots, setSnapshots] = useState(Immutable.fromJS({
     status: "Not connected",
     reals: {}
   }));
+  const [iteration, setIteration] = useState(0)
   const [selected, setSelected] = useState("")
   useEffect(() => {
     console.log('connecting')
-     window.connect(setState)
+     window.connect(setSnapshots())
   }, []);
 
   function realClicked(real_id) {
@@ -60,7 +61,7 @@ function App(props) {
     setSelected(real_id)
   }
 
-  var reals = state.get("reals");
+  var reals = snapshots.get(iteration).get("reals");
   return (
     <div className="container">
         <div className="head">
@@ -81,6 +82,10 @@ function App(props) {
         </div>
     </div>
   );
-}
+});
 
-export default memo(App);
+const App = memo(function(props) {
+
+});
+
+export default App;
